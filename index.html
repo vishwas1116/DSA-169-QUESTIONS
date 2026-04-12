@@ -367,6 +367,29 @@
       💳 Pay ₹19 & Unlock Access
     </button>
     <p class="secure-note">🔒 Secure payment via Razorpay · UPI, Cards, NetBanking accepted</p>
+
+    <div style="display:flex;align-items:center;gap:10px;margin:20px 0 14px;color:#6b6b80;font-size:12px;">
+      <div style="flex:1;height:1px;background:#2a2a3a;"></div>
+      Pehle se password hai?
+      <div style="flex:1;height:1px;background:#2a2a3a;"></div>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <input id="pwdInput" type="text" placeholder="Password daalo..." onkeydown="if(event.key==='Enter')checkPassword()" style="flex:1;padding:11px 14px;background:#111118;border:1px solid #2a2a3a;border-radius:10px;color:#e8e8f0;font-family:'JetBrains Mono',monospace;font-size:14px;outline:none;">
+      <button onclick="checkPassword()" style="padding:11px 18px;border-radius:10px;border:1px solid #7c6df5;background:transparent;color:#7c6df5;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:pointer;">Unlock</button>
+    </div>
+    <p id="pwdError" style="color:#ef4444;font-size:12px;margin-top:6px;display:none;">❌ Galat password! Dobara try karo.</p>
+  </div>
+</div>
+
+<!-- SUCCESS POPUP -->
+<div id="successPopup" style="position:fixed;inset:0;z-index:2000;background:rgba(10,10,15,0.95);display:none;align-items:center;justify-content:center;">
+  <div style="background:#16161f;border:1px solid #22c55e;border-radius:20px;padding:40px;max-width:420px;width:90%;text-align:center;box-shadow:0 0 60px rgba(34,197,94,0.2);">
+    <div style="font-size:48px;margin-bottom:12px">🎉</div>
+    <h2 style="font-size:22px;color:#22c55e;margin-bottom:10px;">Payment Successful!</h2>
+    <p style="color:#6b6b80;font-size:14px;margin-bottom:16px;">Yeh hai tumhara <strong style="color:#e8e8f0">SECRET PASSWORD</strong> — isse save kar lo! Kisi bhi device pe yeh daalo aur access pao.</p>
+    <div style="background:#111118;border:2px dashed #22c55e;border-radius:12px;padding:16px;font-family:'JetBrains Mono',monospace;font-size:30px;font-weight:700;color:#22c55e;letter-spacing:4px;margin-bottom:12px;">DSA169VIP</div>
+    <p style="font-size:12px;color:#f59e0b;margin-bottom:24px;">⚠️ Screenshot le lo ya note kar lo!</p>
+    <button onclick="closeSuccessAndUnlock()" style="width:100%;padding:14px;border-radius:10px;background:#22c55e;border:none;color:white;font-size:16px;font-weight:700;font-family:'Syne',sans-serif;cursor:pointer;">✅ Access Karo</button>
   </div>
 </div>
 
@@ -662,9 +685,7 @@ function openRazorpay() {
     description: "Grind 169 – Lifetime Access",
     image: "https://i.imgur.com/n5tjHFD.png",
     handler: function(response) {
-      // Payment successful
-      unlockAccess();
-      alert("🎉 Payment Successful! Welcome to DSA Mastery.");
+      document.getElementById("successPopup").style.display = "flex";
     },
     prefill: {
       name: "",
@@ -681,9 +702,30 @@ function openRazorpay() {
   rzp.open();
 }
 
+const SECRET_PASSWORD = "DSA169VIP"; // Tum yeh password badal sakte ho
+
 function unlockAccess() {
   localStorage.setItem('dsa_unlocked', '1');
   document.getElementById('paywall').style.display = 'none';
+}
+
+function closeSuccessAndUnlock() {
+  document.getElementById('successPopup').style.display = 'none';
+  unlockAccess();
+}
+
+function checkPassword() {
+  var input = document.getElementById('pwdInput').value.trim();
+  if (input === SECRET_PASSWORD) {
+    unlockAccess();
+  } else {
+    document.getElementById('pwdError').style.display = 'block';
+    document.getElementById('pwdInput').style.borderColor = '#ef4444';
+    setTimeout(function() {
+      document.getElementById('pwdError').style.display = 'none';
+      document.getElementById('pwdInput').style.borderColor = '#2a2a3a';
+    }, 2000);
+  }
 }
 
 // Check if already paid
