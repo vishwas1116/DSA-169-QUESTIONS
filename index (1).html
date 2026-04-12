@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DSA Mastery – Grind 169 Questions</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --card: #16161f;
+    --border: #2a2a3a;
+    --accent: #7c6df5;
+    --accent2: #f5a623;
+    --green: #22c55e;
+    --red: #ef4444;
+    --yellow: #f59e0b;
+    --text: #e8e8f0;
+    --muted: #6b6b80;
+    --easy: #22c55e;
+    --medium: #f59e0b;
+    --hard: #ef4444;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* PAYWALL OVERLAY */
+  #paywall {
+    position: fixed; inset: 0; z-index: 1000;
+    background: rgba(10,10,15,0.97);
+    display: flex; align-items: center; justify-content: center;
+    backdrop-filter: blur(8px);
+  }
+
+  .paywall-box {
+    background: var(--card);
+    border: 1px solid var(--accent);
+    border-radius: 20px;
+    padding: 48px 40px;
+    max-width: 480px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 0 80px rgba(124,109,245,0.2);
+    animation: popIn 0.4s ease;
+  }
+
+  @keyframes popIn {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  .paywall-logo {
+    font-size: 40px; margin-bottom: 8px;
+  }
+
+  .paywall-box h1 {
+    font-size: 28px; font-weight: 800;
+    background: linear-gradient(135deg, #7c6df5, #f5a623);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    margin-bottom: 12px;
+  }
+
+  .paywall-box p {
+    color: var(--muted); font-size: 15px; line-height: 1.6; margin-bottom: 28px;
+  }
+
+  .price-badge {
+    display: inline-flex; align-items: baseline; gap: 8px;
+    background: linear-gradient(135deg, rgba(124,109,245,0.15), rgba(245,166,35,0.1));
+    border: 1px solid rgba(124,109,245,0.4);
+    border-radius: 50px; padding: 12px 28px; margin-bottom: 28px;
+  }
+
+  .price-badge .amount {
+    font-size: 36px; font-weight: 800; color: var(--accent);
+  }
+
+  .price-badge .original {
+    font-size: 18px; color: var(--muted); text-decoration: line-through;
+  }
+
+  .price-badge .label {
+    font-size: 13px; color: var(--muted);
+  }
+
+  .features {
+    list-style: none; text-align: left; margin-bottom: 32px;
+  }
+
+  .features li {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 0; font-size: 14px; border-bottom: 1px solid var(--border);
+  }
+
+  .features li:last-child { border-bottom: none; }
+  .features li .icon { font-size: 18px; }
+
+  .pay-btn {
+    width: 100%; padding: 16px;
+    background: linear-gradient(135deg, #7c6df5, #5b4fd4);
+    border: none; border-radius: 12px;
+    color: white; font-size: 18px; font-weight: 700;
+    font-family: 'Syne', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+  }
+
+  .pay-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(124,109,245,0.5);
+  }
+
+  .secure-note {
+    margin-top: 14px; font-size: 12px; color: var(--muted);
+  }
+
+  /* HEADER */
+  header {
+    padding: 20px 32px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--surface);
+    position: sticky; top: 0; z-index: 100;
+  }
+
+  .logo {
+    font-size: 20px; font-weight: 800;
+    background: linear-gradient(135deg, #7c6df5, #f5a623);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+
+  .header-stats {
+    display: flex; gap: 24px; align-items: center;
+  }
+
+  .stat-item {
+    text-align: center;
+  }
+
+  .stat-item .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 20px; font-weight: 700;
+  }
+
+  .stat-item .lbl {
+    font-size: 11px; color: var(--muted); letter-spacing: 1px;
+  }
+
+  .progress-bar-wrap {
+    width: 200px;
+  }
+
+  .progress-bar {
+    height: 6px; background: var(--border); border-radius: 4px; overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #7c6df5, #22c55e);
+    border-radius: 4px;
+    transition: width 0.5s ease;
+  }
+
+  .progress-text {
+    font-size: 11px; color: var(--muted); margin-top: 4px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* CONTROLS */
+  .controls {
+    padding: 20px 32px;
+    display: flex; gap: 12px; flex-wrap: wrap; align-items: center;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+
+  .search-box {
+    flex: 1; min-width: 200px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 16px;
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .search-box:focus { border-color: var(--accent); }
+
+  .filter-btn {
+    padding: 10px 18px; border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--card); color: var(--text);
+    font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 600;
+    cursor: pointer; transition: all 0.2s; white-space: nowrap;
+  }
+
+  .filter-btn:hover, .filter-btn.active {
+    border-color: var(--accent); color: var(--accent);
+    background: rgba(124,109,245,0.1);
+  }
+
+  .filter-btn.easy.active { border-color: var(--easy); color: var(--easy); background: rgba(34,197,94,0.1); }
+  .filter-btn.medium.active { border-color: var(--medium); color: var(--medium); background: rgba(245,158,11,0.1); }
+  .filter-btn.hard.active { border-color: var(--hard); color: var(--hard); background: rgba(239,68,68,0.1); }
+
+  /* MAIN CONTENT */
+  .main { padding: 24px 32px; }
+
+  .topic-section { margin-bottom: 32px; }
+
+  .topic-header {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 14px; cursor: pointer;
+  }
+
+  .topic-title {
+    font-size: 18px; font-weight: 700;
+  }
+
+  .topic-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; color: var(--muted);
+    background: var(--card); border: 1px solid var(--border);
+    padding: 3px 10px; border-radius: 20px;
+  }
+
+  .topic-progress {
+    margin-left: auto; font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; color: var(--green);
+  }
+
+  /* QUESTION CARDS */
+  .questions-grid {
+    display: grid;
+    gap: 8px;
+  }
+
+  .q-card {
+    display: flex; align-items: center; gap: 16px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 18px;
+    transition: all 0.2s;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .q-card:hover {
+    border-color: var(--accent);
+    background: rgba(124,109,245,0.05);
+    transform: translateX(4px);
+  }
+
+  .q-card.done {
+    border-color: rgba(34,197,94,0.3);
+    background: rgba(34,197,94,0.04);
+  }
+
+  .q-check {
+    width: 22px; height: 22px;
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; flex-shrink: 0;
+    transition: all 0.2s;
+  }
+
+  .q-card.done .q-check {
+    background: var(--green);
+    border-color: var(--green);
+  }
+
+  .q-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; color: var(--muted);
+    min-width: 36px;
+  }
+
+  .q-name {
+    flex: 1; font-size: 14px; font-weight: 600;
+    color: var(--text);
+  }
+
+  .q-card.done .q-name {
+    color: var(--muted);
+    text-decoration: line-through;
+  }
+
+  .q-diff {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 700;
+    padding: 3px 10px; border-radius: 20px;
+    letter-spacing: 0.5px;
+  }
+
+  .q-diff.Easy { color: var(--easy); background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3); }
+  .q-diff.Medium { color: var(--medium); background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.3); }
+  .q-diff.Hard { color: var(--hard); background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); }
+
+  .q-lc-link {
+    font-size: 12px; color: var(--muted);
+    text-decoration: none;
+    padding: 4px 10px; border-radius: 6px;
+    border: 1px solid var(--border);
+    transition: all 0.2s;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .q-lc-link:hover {
+    border-color: var(--accent2);
+    color: var(--accent2);
+  }
+
+  .hidden { display: none !important; }
+
+  /* TOPIC ICONS */
+  .topic-icon { font-size: 20px; }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    header { padding: 12px 16px; }
+    .controls { padding: 12px 16px; }
+    .main { padding: 16px; }
+    .header-stats { gap: 12px; }
+    .progress-bar-wrap { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ==================== PAYWALL ==================== -->
+<div id="paywall">
+  <div class="paywall-box">
+    <div class="paywall-logo">🚀</div>
+    <h1>DSA Mastery – Grind 169</h1>
+    <p>Top 169 LeetCode questions, carefully curated to crack any tech interview. Track your progress, filter by topic & difficulty, open directly on LeetCode.</p>
+
+    <div class="price-badge">
+      <span class="original">₹299</span>
+      <span class="amount">₹19</span>
+      <span class="label">/ Lifetime</span>
+    </div>
+
+    <ul class="features">
+      <li><span class="icon">✅</span> All 169 hand-picked DSA questions</li>
+      <li><span class="icon">🎯</span> Topic-wise & difficulty filter</li>
+      <li><span class="icon">📊</span> Progress tracker saved locally</li>
+      <li><span class="icon">🔗</span> Direct LeetCode links</li>
+      <li><span class="icon">♾️</span> Lifetime access, no subscription</li>
+    </ul>
+
+    <button class="pay-btn" onclick="openRazorpay()">
+      💳 Pay ₹19 & Unlock Access
+    </button>
+    <p class="secure-note">🔒 Secure payment via Razorpay · UPI, Cards, NetBanking accepted</p>
+  </div>
+</div>
+
+<!-- ==================== HEADER ==================== -->
+<header>
+  <div class="logo">⚡ DSA Mastery</div>
+  <div class="header-stats">
+    <div class="stat-item">
+      <div class="num" id="doneCount" style="color:var(--green)">0</div>
+      <div class="lbl">DONE</div>
+    </div>
+    <div class="stat-item">
+      <div class="num" id="totalCount">169</div>
+      <div class="lbl">TOTAL</div>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      <div class="progress-text" id="progressText">0 / 169 completed</div>
+    </div>
+  </div>
+</header>
+
+<!-- ==================== CONTROLS ==================== -->
+<div class="controls">
+  <input type="text" class="search-box" id="searchBox" placeholder="🔍 Search questions..." oninput="filterQuestions()">
+  <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
+  <button class="filter-btn easy" onclick="setFilter('Easy',this)">Easy</button>
+  <button class="filter-btn medium" onclick="setFilter('Medium',this)">Medium</button>
+  <button class="filter-btn hard" onclick="setFilter('Hard',this)">Hard</button>
+  <button class="filter-btn" onclick="setFilter('done',this)">✅ Done</button>
+  <button class="filter-btn" onclick="setFilter('todo',this)">📋 Todo</button>
+</div>
+
+<!-- ==================== MAIN ==================== -->
+<div class="main" id="mainContent"></div>
+
+<script>
+// =========================================================
+// ⚠️ RAZORPAY CONFIG – Yahan apni KEY_ID daalo
+// =========================================================
+const RAZORPAY_KEY_ID = "rzp_test_XXXXXXXXXXXXXX"; // <-- APNI KEY YAHAN
+const AMOUNT_PAISE = 1900; // 19 rupees = 1900 paise
+const PRODUCT_NAME = "DSA Mastery – Grind 169";
+
+// =========================================================
+// DATA: All 169 Questions
+// =========================================================
+const QUESTIONS = [
+  // ── ARRAY ──────────────────────────────
+  {id:1,  name:"Two Sum", lc:1, topic:"Array", diff:"Easy"},
+  {id:2,  name:"Best Time to Buy and Sell Stock", lc:121, topic:"Array", diff:"Easy"},
+  {id:3,  name:"Majority Element", lc:169, topic:"Array", diff:"Easy"},
+  {id:4,  name:"Contains Duplicate", lc:217, topic:"Array", diff:"Easy"},
+  {id:5,  name:"Meeting Rooms", lc:252, topic:"Array", diff:"Easy"},
+  {id:6,  name:"Move Zeroes", lc:283, topic:"Array", diff:"Easy"},
+  {id:7,  name:"Squares of a Sorted Array", lc:977, topic:"Array", diff:"Easy"},
+  {id:8,  name:"Insert Interval", lc:57, topic:"Array", diff:"Medium"},
+  {id:9,  name:"3Sum", lc:15, topic:"Array", diff:"Medium"},
+  {id:10, name:"Product of Array Except Self", lc:238, topic:"Array", diff:"Medium"},
+  {id:11, name:"Combination Sum", lc:39, topic:"Array", diff:"Medium"},
+  {id:12, name:"Merge Intervals", lc:56, topic:"Array", diff:"Medium"},
+  {id:13, name:"Sort Colors", lc:75, topic:"Array", diff:"Medium"},
+  {id:14, name:"Container With Most Water", lc:11, topic:"Array", diff:"Medium"},
+  {id:15, name:"Gas Station", lc:134, topic:"Array", diff:"Medium"},
+  {id:16, name:"Longest Consecutive Sequence", lc:128, topic:"Array", diff:"Medium"},
+  {id:17, name:"Rotate Array", lc:189, topic:"Array", diff:"Medium"},
+  {id:18, name:"Contiguous Array", lc:525, topic:"Array", diff:"Medium"},
+  {id:19, name:"Subarray Sum Equals K", lc:560, topic:"Array", diff:"Medium"},
+  {id:20, name:"Meeting Rooms II", lc:253, topic:"Array", diff:"Medium"},
+  {id:21, name:"3Sum Closest", lc:16, topic:"Array", diff:"Medium"},
+  {id:22, name:"Non-overlapping Intervals", lc:435, topic:"Array", diff:"Medium"},
+  {id:23, name:"Employee Free Time", lc:759, topic:"Array", diff:"Hard"},
+  {id:24, name:"Sliding Window Maximum", lc:239, topic:"Array", diff:"Hard"},
+
+  // ── STACK ──────────────────────────────
+  {id:25, name:"Valid Parentheses", lc:20, topic:"Stack", diff:"Easy"},
+  {id:26, name:"Implement Queue using Stacks", lc:232, topic:"Stack", diff:"Easy"},
+  {id:27, name:"Backspace String Compare", lc:844, topic:"Stack", diff:"Easy"},
+  {id:28, name:"Evaluate Reverse Polish Notation", lc:150, topic:"Stack", diff:"Medium"},
+  {id:29, name:"Min Stack", lc:155, topic:"Stack", diff:"Medium"},
+  {id:30, name:"Daily Temperatures", lc:739, topic:"Stack", diff:"Medium"},
+  {id:31, name:"Decode String", lc:394, topic:"Stack", diff:"Medium"},
+  {id:32, name:"Asteroid Collision", lc:735, topic:"Stack", diff:"Medium"},
+  {id:33, name:"Basic Calculator II", lc:227, topic:"Stack", diff:"Medium"},
+  {id:34, name:"Trapping Rain Water", lc:42, topic:"Stack", diff:"Hard"},
+  {id:35, name:"Basic Calculator", lc:224, topic:"Stack", diff:"Hard"},
+  {id:36, name:"Largest Rectangle in Histogram", lc:84, topic:"Stack", diff:"Hard"},
+  {id:37, name:"Maximum Frequency Stack", lc:895, topic:"Stack", diff:"Hard"},
+  {id:38, name:"Longest Valid Parentheses", lc:32, topic:"Stack", diff:"Hard"},
+
+  // ── LINKED LIST ──────────────────────────
+  {id:39, name:"Merge Two Sorted Lists", lc:21, topic:"Linked List", diff:"Easy"},
+  {id:40, name:"Linked List Cycle", lc:141, topic:"Linked List", diff:"Easy"},
+  {id:41, name:"Reverse Linked List", lc:206, topic:"Linked List", diff:"Easy"},
+  {id:42, name:"Middle of the Linked List", lc:876, topic:"Linked List", diff:"Easy"},
+  {id:43, name:"Palindrome Linked List", lc:234, topic:"Linked List", diff:"Easy"},
+  {id:44, name:"LRU Cache", lc:146, topic:"Linked List", diff:"Medium"},
+  {id:45, name:"Remove Nth Node From End of List", lc:19, topic:"Linked List", diff:"Medium"},
+  {id:46, name:"Swap Nodes in Pairs", lc:24, topic:"Linked List", diff:"Medium"},
+  {id:47, name:"Odd Even Linked List", lc:328, topic:"Linked List", diff:"Medium"},
+  {id:48, name:"Add Two Numbers", lc:2, topic:"Linked List", diff:"Medium"},
+  {id:49, name:"Sort List", lc:148, topic:"Linked List", diff:"Medium"},
+  {id:50, name:"Reorder List", lc:143, topic:"Linked List", diff:"Medium"},
+  {id:51, name:"Rotate List", lc:61, topic:"Linked List", diff:"Medium"},
+  {id:52, name:"Reverse Nodes in k-Group", lc:25, topic:"Linked List", diff:"Hard"},
+
+  // ── STRING ──────────────────────────────
+  {id:53, name:"Valid Palindrome", lc:125, topic:"String", diff:"Easy"},
+  {id:54, name:"Valid Anagram", lc:242, topic:"String", diff:"Easy"},
+  {id:55, name:"Longest Palindrome", lc:409, topic:"String", diff:"Easy"},
+  {id:56, name:"Longest Common Prefix", lc:14, topic:"String", diff:"Easy"},
+  {id:57, name:"Longest Substring Without Repeating Characters", lc:3, topic:"String", diff:"Medium"},
+  {id:58, name:"String to Integer (atoi)", lc:8, topic:"String", diff:"Medium"},
+  {id:59, name:"Longest Palindromic Substring", lc:5, topic:"String", diff:"Medium"},
+  {id:60, name:"Find All Anagrams in a String", lc:438, topic:"String", diff:"Medium"},
+  {id:61, name:"Group Anagrams", lc:49, topic:"String", diff:"Medium"},
+  {id:62, name:"Longest Repeating Character Replacement", lc:424, topic:"String", diff:"Medium"},
+  {id:63, name:"Largest Number", lc:179, topic:"String", diff:"Medium"},
+  {id:64, name:"Encode and Decode Strings", lc:271, topic:"String", diff:"Medium"},
+  {id:65, name:"Minimum Window Substring", lc:76, topic:"String", diff:"Hard"},
+  {id:66, name:"Palindrome Pairs", lc:336, topic:"String", diff:"Hard"},
+
+  // ── BINARY TREE ──────────────────────────
+  {id:67, name:"Invert Binary Tree", lc:226, topic:"Binary Tree", diff:"Easy"},
+  {id:68, name:"Balanced Binary Tree", lc:110, topic:"Binary Tree", diff:"Easy"},
+  {id:69, name:"Diameter of Binary Tree", lc:543, topic:"Binary Tree", diff:"Easy"},
+  {id:70, name:"Maximum Depth of Binary Tree", lc:104, topic:"Binary Tree", diff:"Easy"},
+  {id:71, name:"Same Tree", lc:100, topic:"Binary Tree", diff:"Easy"},
+  {id:72, name:"Symmetric Tree", lc:101, topic:"Binary Tree", diff:"Easy"},
+  {id:73, name:"Subtree of Another Tree", lc:572, topic:"Binary Tree", diff:"Easy"},
+  {id:74, name:"Binary Tree Level Order Traversal", lc:102, topic:"Binary Tree", diff:"Medium"},
+  {id:75, name:"Lowest Common Ancestor of a Binary Tree", lc:236, topic:"Binary Tree", diff:"Medium"},
+  {id:76, name:"Binary Tree Right Side View", lc:199, topic:"Binary Tree", diff:"Medium"},
+  {id:77, name:"Construct Binary Tree from Preorder and Inorder Traversal", lc:105, topic:"Binary Tree", diff:"Medium"},
+  {id:78, name:"Path Sum II", lc:113, topic:"Binary Tree", diff:"Medium"},
+  {id:79, name:"Maximum Width of Binary Tree", lc:662, topic:"Binary Tree", diff:"Medium"},
+  {id:80, name:"Binary Tree Zigzag Level Order Traversal", lc:103, topic:"Binary Tree", diff:"Medium"},
+  {id:81, name:"Path Sum III", lc:437, topic:"Binary Tree", diff:"Medium"},
+  {id:82, name:"All Nodes Distance K in Binary Tree", lc:863, topic:"Binary Tree", diff:"Medium"},
+  {id:83, name:"Serialize and Deserialize Binary Tree", lc:297, topic:"Binary Tree", diff:"Hard"},
+  {id:84, name:"Binary Tree Maximum Path Sum", lc:124, topic:"Binary Tree", diff:"Hard"},
+
+  // ── BINARY SEARCH ────────────────────────
+  {id:85, name:"Binary Search", lc:704, topic:"Binary Search", diff:"Easy"},
+  {id:86, name:"First Bad Version", lc:278, topic:"Binary Search", diff:"Easy"},
+  {id:87, name:"Search in Rotated Sorted Array", lc:33, topic:"Binary Search", diff:"Medium"},
+  {id:88, name:"Time Based Key-Value Store", lc:981, topic:"Binary Search", diff:"Medium"},
+  {id:89, name:"Search a 2D Matrix", lc:74, topic:"Binary Search", diff:"Medium"},
+  {id:90, name:"Find Minimum in Rotated Sorted Array", lc:153, topic:"Binary Search", diff:"Medium"},
+  {id:91, name:"Maximum Profit in Job Scheduling", lc:1235, topic:"Binary Search", diff:"Hard"},
+  {id:92, name:"Median of Two Sorted Arrays", lc:4, topic:"Binary Search", diff:"Hard"},
+
+  // ── GRAPH ──────────────────────────────
+  {id:93,  name:"Flood Fill", lc:733, topic:"Graph", diff:"Easy"},
+  {id:94,  name:"01 Matrix", lc:542, topic:"Graph", diff:"Medium"},
+  {id:95,  name:"Clone Graph", lc:133, topic:"Graph", diff:"Medium"},
+  {id:96,  name:"Course Schedule", lc:207, topic:"Graph", diff:"Medium"},
+  {id:97,  name:"Number of Islands", lc:200, topic:"Graph", diff:"Medium"},
+  {id:98,  name:"Rotting Oranges", lc:994, topic:"Graph", diff:"Medium"},
+  {id:99,  name:"Accounts Merge", lc:721, topic:"Graph", diff:"Medium"},
+  {id:100, name:"Word Search", lc:79, topic:"Graph", diff:"Medium"},
+  {id:101, name:"Minimum Height Trees", lc:310, topic:"Graph", diff:"Medium"},
+  {id:102, name:"Pacific Atlantic Water Flow", lc:417, topic:"Graph", diff:"Medium"},
+  {id:103, name:"Shortest Path to Get Food", lc:1730, topic:"Graph", diff:"Medium"},
+  {id:104, name:"Graph Valid Tree", lc:261, topic:"Graph", diff:"Medium"},
+  {id:105, name:"Course Schedule II", lc:210, topic:"Graph", diff:"Medium"},
+  {id:106, name:"Number of Connected Components in an Undirected Graph", lc:323, topic:"Graph", diff:"Medium"},
+  {id:107, name:"Minimum Knight Moves", lc:1197, topic:"Graph", diff:"Medium"},
+  {id:108, name:"Cheapest Flights Within K Stops", lc:787, topic:"Graph", diff:"Medium"},
+  {id:109, name:"Word Ladder", lc:127, topic:"Graph", diff:"Hard"},
+  {id:110, name:"Longest Increasing Path in a Matrix", lc:329, topic:"Graph", diff:"Hard"},
+  {id:111, name:"Word Search II", lc:212, topic:"Graph", diff:"Hard"},
+  {id:112, name:"Alien Dictionary", lc:269, topic:"Graph", diff:"Hard"},
+  {id:113, name:"Bus Routes", lc:815, topic:"Graph", diff:"Hard"},
+
+  // ── BST ──────────────────────────────
+  {id:114, name:"Lowest Common Ancestor of a BST", lc:235, topic:"Binary Search Tree", diff:"Easy"},
+  {id:115, name:"Convert Sorted Array to Binary Search Tree", lc:108, topic:"Binary Search Tree", diff:"Easy"},
+  {id:116, name:"Validate Binary Search Tree", lc:98, topic:"Binary Search Tree", diff:"Medium"},
+  {id:117, name:"Kth Smallest Element in a BST", lc:230, topic:"Binary Search Tree", diff:"Medium"},
+  {id:118, name:"Inorder Successor in BST", lc:285, topic:"Binary Search Tree", diff:"Medium"},
+
+  // ── HASH TABLE ────────────────────────
+  {id:119, name:"Ransom Note", lc:383, topic:"Hash Table", diff:"Easy"},
+  {id:120, name:"Insert Delete GetRandom O(1)", lc:380, topic:"Hash Table", diff:"Medium"},
+  {id:121, name:"First Missing Positive", lc:41, topic:"Hash Table", diff:"Hard"},
+
+  // ── DYNAMIC PROGRAMMING ───────────────
+  {id:122, name:"Climbing Stairs", lc:70, topic:"Dynamic Programming", diff:"Easy"},
+  {id:123, name:"Maximum Subarray", lc:53, topic:"Dynamic Programming", diff:"Easy"},
+  {id:124, name:"Coin Change", lc:322, topic:"Dynamic Programming", diff:"Medium"},
+  {id:125, name:"Partition Equal Subset Sum", lc:416, topic:"Dynamic Programming", diff:"Medium"},
+  {id:126, name:"Unique Paths", lc:62, topic:"Dynamic Programming", diff:"Medium"},
+  {id:127, name:"House Robber", lc:198, topic:"Dynamic Programming", diff:"Medium"},
+  {id:128, name:"Maximum Product Subarray", lc:152, topic:"Dynamic Programming", diff:"Medium"},
+  {id:129, name:"Longest Increasing Subsequence", lc:300, topic:"Dynamic Programming", diff:"Medium"},
+  {id:130, name:"Jump Game", lc:55, topic:"Dynamic Programming", diff:"Medium"},
+  {id:131, name:"Maximal Square", lc:221, topic:"Dynamic Programming", diff:"Medium"},
+  {id:132, name:"Decode Ways", lc:91, topic:"Dynamic Programming", diff:"Medium"},
+  {id:133, name:"Combination Sum IV", lc:377, topic:"Dynamic Programming", diff:"Medium"},
+
+  // ── BINARY (BIT) ─────────────────────
+  {id:134, name:"Add Binary", lc:67, topic:"Binary", diff:"Easy"},
+  {id:135, name:"Counting Bits", lc:338, topic:"Binary", diff:"Easy"},
+  {id:136, name:"Number of 1 Bits", lc:191, topic:"Binary", diff:"Easy"},
+  {id:137, name:"Single Number", lc:136, topic:"Binary", diff:"Easy"},
+  {id:138, name:"Missing Number", lc:268, topic:"Binary", diff:"Easy"},
+  {id:139, name:"Reverse Bits", lc:190, topic:"Binary", diff:"Easy"},
+  {id:140, name:"Find the Duplicate Number", lc:287, topic:"Binary", diff:"Medium"},
+
+  // ── MATH ─────────────────────────────
+  {id:141, name:"Roman to Integer", lc:13, topic:"Math", diff:"Easy"},
+  {id:142, name:"Palindrome Number", lc:9, topic:"Math", diff:"Easy"},
+  {id:143, name:"Random Pick with Weight", lc:528, topic:"Math", diff:"Medium"},
+  {id:144, name:"Pow(x, n)", lc:50, topic:"Math", diff:"Medium"},
+  {id:145, name:"Reverse Integer", lc:7, topic:"Math", diff:"Medium"},
+
+  // ── HEAP ─────────────────────────────
+  {id:146, name:"K Closest Points to Origin", lc:973, topic:"Heap", diff:"Medium"},
+  {id:147, name:"Task Scheduler", lc:621, topic:"Heap", diff:"Medium"},
+  {id:148, name:"Top K Frequent Words", lc:692, topic:"Heap", diff:"Medium"},
+  {id:149, name:"Find K Closest Elements", lc:658, topic:"Heap", diff:"Medium"},
+  {id:150, name:"Kth Largest Element in an Array", lc:215, topic:"Heap", diff:"Medium"},
+  {id:151, name:"Find Median from Data Stream", lc:295, topic:"Heap", diff:"Hard"},
+  {id:152, name:"Merge k Sorted Lists", lc:23, topic:"Heap", diff:"Hard"},
+  {id:153, name:"Smallest Range Covering Elements from K Lists", lc:632, topic:"Heap", diff:"Hard"},
+
+  // ── TRIE ─────────────────────────────
+  {id:154, name:"Implement Trie (Prefix Tree)", lc:208, topic:"Trie", diff:"Medium"},
+  {id:155, name:"Word Break", lc:139, topic:"Trie", diff:"Medium"},
+  {id:156, name:"Design Add and Search Words Data Structure", lc:211, topic:"Trie", diff:"Medium"},
+  {id:157, name:"Design In-Memory File System", lc:588, topic:"Trie", diff:"Hard"},
+
+  // ── RECURSION ─────────────────────────
+  {id:158, name:"Permutations", lc:46, topic:"Recursion", diff:"Medium"},
+  {id:159, name:"Subsets", lc:78, topic:"Recursion", diff:"Medium"},
+  {id:160, name:"Letter Combinations of a Phone Number", lc:17, topic:"Recursion", diff:"Medium"},
+  {id:161, name:"Next Permutation", lc:31, topic:"Recursion", diff:"Medium"},
+  {id:162, name:"Generate Parentheses", lc:22, topic:"Recursion", diff:"Medium"},
+  {id:163, name:"N-Queens", lc:51, topic:"Recursion", diff:"Hard"},
+
+  // ── MATRIX ───────────────────────────
+  {id:164, name:"Spiral Matrix", lc:54, topic:"Matrix", diff:"Medium"},
+  {id:165, name:"Valid Sudoku", lc:36, topic:"Matrix", diff:"Medium"},
+  {id:166, name:"Rotate Image", lc:48, topic:"Matrix", diff:"Medium"},
+  {id:167, name:"Set Matrix Zeroes", lc:73, topic:"Matrix", diff:"Medium"},
+  {id:168, name:"Sudoku Solver", lc:37, topic:"Matrix", diff:"Hard"},
+
+  // ── QUEUE ─────────────────────────────
+  {id:169, name:"Design Hit Counter", lc:362, topic:"Queue", diff:"Medium"},
+];
+
+const TOPIC_ICONS = {
+  "Array": "📦", "Stack": "📚", "Linked List": "🔗", "String": "📝",
+  "Binary Tree": "🌳", "Binary Search": "🔍", "Graph": "🕸️",
+  "Binary Search Tree": "🌲", "Hash Table": "🗃️", "Dynamic Programming": "⚡",
+  "Binary": "💻", "Math": "🧮", "Heap": "⛰️", "Trie": "🌐",
+  "Recursion": "♻️", "Matrix": "🧩", "Queue": "🚦"
+};
+
+// =========================================================
+// STATE
+// =========================================================
+let done = JSON.parse(localStorage.getItem('dsa_done') || '{}');
+let filterDiff = 'all';
+
+function saveDone() { localStorage.setItem('dsa_done', JSON.stringify(done)); }
+
+function toggleDone(id, e) {
+  e.preventDefault();
+  done[id] = !done[id];
+  if (!done[id]) delete done[id];
+  saveDone();
+  renderAll();
+}
+
+// =========================================================
+// RAZORPAY
+// =========================================================
+function openRazorpay() {
+  // Check if key is configured
+  if (RAZORPAY_KEY_ID === "rzp_test_XXXXXXXXXXXXXX") {
+    alert("⚠️ Developer: Please add your Razorpay Key ID in the script.\n\nFor testing, click OK to bypass payment.");
+    unlockAccess();
+    return;
+  }
+
+  const options = {
+    key: RAZORPAY_KEY_ID,
+    amount: AMOUNT_PAISE,
+    currency: "INR",
+    name: "DSA Mastery",
+    description: "Grind 169 – Lifetime Access",
+    image: "https://i.imgur.com/n5tjHFD.png",
+    handler: function(response) {
+      // Payment successful
+      unlockAccess();
+      alert("🎉 Payment Successful! Welcome to DSA Mastery.");
+    },
+    prefill: {
+      name: "",
+      email: "",
+      contact: ""
+    },
+    theme: { color: "#7c6df5" },
+    modal: {
+      ondismiss: function() { console.log("Payment dismissed"); }
+    }
+  };
+
+  const rzp = new Razorpay(options);
+  rzp.open();
+}
+
+function unlockAccess() {
+  localStorage.setItem('dsa_unlocked', '1');
+  document.getElementById('paywall').style.display = 'none';
+}
+
+// Check if already paid
+if (localStorage.getItem('dsa_unlocked') === '1') {
+  document.getElementById('paywall').style.display = 'none';
+}
+
+// =========================================================
+// RENDER
+// =========================================================
+function setFilter(f, btn) {
+  filterDiff = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderAll();
+}
+
+function filterQuestions() { renderAll(); }
+
+function getFiltered() {
+  const q = document.getElementById('searchBox').value.toLowerCase();
+  return QUESTIONS.filter(item => {
+    const matchSearch = !q || item.name.toLowerCase().includes(q) || String(item.lc).includes(q);
+    const isDone = !!done[item.id];
+    const matchDiff =
+      filterDiff === 'all' ? true :
+      filterDiff === 'done' ? isDone :
+      filterDiff === 'todo' ? !isDone :
+      item.diff === filterDiff;
+    return matchSearch && matchDiff;
+  });
+}
+
+function renderAll() {
+  const filtered = getFiltered();
+  const topics = [...new Set(QUESTIONS.map(q => q.topic))];
+  const container = document.getElementById('mainContent');
+
+  let html = '';
+  topics.forEach(topic => {
+    const topicQs = filtered.filter(q => q.topic === topic);
+    if (!topicQs.length) return;
+
+    const doneCount = topicQs.filter(q => done[q.id]).length;
+    const icon = TOPIC_ICONS[topic] || '📌';
+
+    html += `<div class="topic-section">
+      <div class="topic-header">
+        <span class="topic-icon">${icon}</span>
+        <span class="topic-title">${topic}</span>
+        <span class="topic-count">${topicQs.length} questions</span>
+        ${doneCount > 0 ? `<span class="topic-progress">✅ ${doneCount}/${topicQs.length}</span>` : ''}
+      </div>
+      <div class="questions-grid">`;
+
+    topicQs.forEach(q => {
+      const isDone = !!done[q.id];
+      html += `
+        <div class="q-card ${isDone ? 'done' : ''}" onclick="toggleDone(${q.id}, event)">
+          <div class="q-check">${isDone ? '✓' : ''}</div>
+          <span class="q-num">#${q.lc}</span>
+          <span class="q-name">${q.name}</span>
+          <span class="q-diff ${q.diff}">${q.diff}</span>
+          <a class="q-lc-link" href="https://leetcode.com/problems/${q.name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')}/" target="_blank" onclick="event.stopPropagation()">LC →</a>
+        </div>`;
+    });
+
+    html += `</div></div>`;
+  });
+
+  if (!html) {
+    html = `<div style="text-align:center;padding:60px;color:var(--muted)">
+      <div style="font-size:48px;margin-bottom:16px">🔍</div>
+      <div style="font-size:18px">No questions found</div>
+    </div>`;
+  }
+
+  container.innerHTML = html;
+  updateStats();
+}
+
+function updateStats() {
+  const total = QUESTIONS.length;
+  const doneCount = Object.keys(done).length;
+  const pct = Math.round((doneCount / total) * 100);
+  document.getElementById('doneCount').textContent = doneCount;
+  document.getElementById('totalCount').textContent = total;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressText').textContent = `${doneCount} / ${total} completed (${pct}%)`;
+}
+
+// Initial render
+renderAll();
+</script>
+</body>
+</html>
