@@ -430,7 +430,7 @@
 // =========================================================
 // ⚠️ RAZORPAY CONFIG – Yahan apni KEY_ID daalo
 // =========================================================
-const RAZORPAY_KEY_ID = "rzp_live_ScQnLVbrKY7scZ";
+const RAZORPAY_KEY_ID = "key";
 const AMOUNT_PAISE = 1900; // 19 rupees = 1900 paise
 const PRODUCT_NAME = "DSA Mastery – Grind 169";
 
@@ -671,7 +671,7 @@ function toggleDone(id, e) {
 // =========================================================
 function openRazorpay() {
   // Check if key is configured
-  if (RAZORPAY_KEY_ID === "rzp_test_XXXXXXXXXXXXXX") {
+  if (RAZORPAY_KEY_ID === "keyid") {
     alert("⚠️ Developer: Please add your Razorpay Key ID in the script.\n\nFor testing, click OK to bypass payment.");
     unlockAccess();
     return;
